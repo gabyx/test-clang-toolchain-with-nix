@@ -49,7 +49,6 @@
           clangStdEnv = pkgs.stdenvAdapters.overrideCC llvmPkgs.stdenv (llvmPkgs.clang.override {
             gccForLibs = gccPkg;
             bintools = llvmPkgs.bintools;
-            useCcForLibs = false;
           });
 
           # What goes here:
@@ -71,7 +70,7 @@
           ];
         in {
           # default = pkgs.mkShell.override {stdenv = clangStdEnv;} rec {
-          default = pkgs.mkShell {
+          default = pkgs.mkShell.override {stdenv = clangStdEnv;} {
             inherit nativeBuildInputs;
             inherit buildInputs;
 
