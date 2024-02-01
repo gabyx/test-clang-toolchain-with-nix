@@ -48,7 +48,7 @@
 
           clangStdEnv = pkgs.stdenvAdapters.overrideCC llvmPkgs.stdenv (llvmPkgs.clang.override {
             gccForLibs = gccPkg;
-            bintools = gccPkg.bintools;
+            bintools = llvmPkgs.bintools;
             useCcForLibs = false;
           });
 
