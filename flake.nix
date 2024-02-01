@@ -47,8 +47,8 @@
           # clangStdEnv = pkgs.clang17Stdenv;
 
           clangStdEnv = pkgs.stdenvAdapters.overrideCC llvmPkgs.stdenv (llvmPkgs.clang.override {
-            gccForLibs = gccPkg;
-            bintools = llvmPkgs.bintools;
+            gccForLibs = gccPkg.cc;
+            # bintools = llvmPkgs.bintools;
           });
 
           # What goes here:
