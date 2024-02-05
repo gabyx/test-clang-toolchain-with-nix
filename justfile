@@ -8,3 +8,9 @@ build:
 		cd build && cmake .. && \
 		 NIX_DEBUG=1 make -j && \
 		 ./test
+
+package:
+	nix build "./?submodules=1" --print-build-logs
+
+run:
+	nix run "./?submodules=1" --print-build-logs
