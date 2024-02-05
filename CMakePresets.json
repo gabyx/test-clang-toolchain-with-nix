@@ -1,0 +1,67 @@
+{
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      },
+      "hidden": true
+    },
+    {
+      "name": "relwithdebinfo",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      },
+      "hidden": true
+    },
+    {
+      "name": "release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      },
+      "hidden": true
+    },
+    {
+      "name": "multi",
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Debug;Release;RelWithDebInfo"
+      },
+      "hidden": true
+    },
+    {
+      "name": "no-toolchain-multi",
+      "displayName": "No toolchain [multi]",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "inherits": ["multi"]
+    },
+    {
+      "name": "no-toolchain-debug",
+      "displayName": "No toolchain [debug]",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "inherits": ["debug"]
+    },
+    {
+      "name": "no-toolchain-relwithdebinfo",
+      "displayName": "No toolchain [relwithdebinfo]",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "inherits": ["relwithdebinfo"]
+    },
+    {
+      "name": "no-toolchain-release",
+      "displayName": "No toolchain [release]",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "inherits": ["release"]
+    }
+  ],
+  "buildPresets": [],
+  "version": 3
+}
