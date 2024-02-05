@@ -16,19 +16,13 @@
 
   clangStdEnv = pkgs.stdenvAdapters.overrideCC llvmPkgs.stdenv (
     llvmPkgs.clang.override {
+      bintools = llvmPkgs.bintools;
       gccForLibs = gccPkg.cc; # This is the unwrapped gcc.
     }
   );
 
   stdenv = clangStdEnv;
   libstdcxx = gccPkg.cc.lib;
-
-  compilerLinks = pkgs.runCommand "clang-links" {} ''
-    mkdir -p $out/bin
-    ln -s ${llvmPkgs.clang}/bin/clang $out/bin/clang-${llvmVersion}
-    ln -s ${llvmPkgs.clang}/bin/clang++ $out/bin/clang++-${llvmVersion}
-    ln -s ${llvmPkgs.llvm}/bin/llvm-as $out/bin/llvm-as-${llvmVersion}
-  '';
 
   settings = {
     # What goes here:
@@ -61,8 +55,6 @@
 
       pkgs.python3
 
-      llvmPkgs.lld
-
       # Override clangd/clang-tidy because of trouble findign stdlib etc.
       # Do not use the clangd from this package as
       # it does not work correctly with
@@ -71,9 +63,6 @@
         llvmPackages = llvmPkgs;
         enableLibcxx = false;
       })
-
-      # Compiler Links
-      compilerLinks
     ];
 
     build_dir = "build/no-toolchain-${build_type}";
@@ -105,7 +94,8 @@ in
       export CCACHE_DIR="$ccache_dir"
 
       cd "${settings.build_dir}" &&
-        cmake --build . -- --verbose
+        NIX_DEBUG=1 cmake --build . -- --verbose
+        readelf -d test
         ldd test
 
       echo "Build Out: $out"
@@ -113,6 +103,9 @@ in
 
     installPhase = ''
       cmake --install .
+      echo AFTER INSTALL
+      readelf -d $out/bin/test
+      ldd $out/bin/test
 
       echo "Out: $out"
     '';
